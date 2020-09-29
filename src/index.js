@@ -20,9 +20,9 @@ class UIScene extends Phaser.Scene {
 
   create () {
     const logo = this.add.image(screenWidth/2, screenHeight/2 - 50, "logo").setScale(0.2)
-    const startButton = this.add.image(logo.x - 30, logo.y + (logo.displayHeight/2 + 40), "start-button").setScale(0.2)
-    const leaderboardButton = this.add.image(logo.x - 30, startButton.y + (startButton.displayHeight/2 + 10), "leaderboard-button").setScale(0.2)
-    this.input.once('pointerdown', function () {
+    const startButton = this.add.sprite(logo.x - 30, logo.y + (logo.displayHeight/2 + 40), "start-button").setScale(0.2).setInteractive()
+    const leaderboardButton = this.add.sprite(logo.x - 30, startButton.y + (startButton.displayHeight/2 + 10), "leaderboard-button").setScale(0.2).setInteractive()
+    startButton.on('pointerdown', function () {
       this.scene.start('mainScene')
   }, this)
   }
