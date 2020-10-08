@@ -5,12 +5,10 @@ import leaderboardButtonImg from "./assets/leaderboard-button.png"
 import gameboardImg from "./assets/background.jpg"
 import characterCardImg from "./assets/character-card.png"
 
-const screenWidth = window.innerWidth 
-const screenHeight = window.innerHeight
-const column = screenWidth/12
-const row = screenHeight/12
+const screenWidth = 1920  
+const screenHeight = 1080
 
-console.log(window.devicePixelRatio/3)
+console.log(characterCardImg)
 class UIScene extends Phaser.Scene {
   constructor () {
     super({ key: 'UIScene' });
@@ -32,26 +30,6 @@ class UIScene extends Phaser.Scene {
   }
 }
 
-class Character extends Phaser.GameObjects.Container {
-  constructor(scene, x, y, key1, text) {
-      super(scene)
-
-      this.scene = scene
-      this.x = x
-      this.y = y
-
-      const card = this.scene.add.image(x,y, key1)
-      console.log(card)
-      const cardText = this.scene.add.text((0 - card.width/4) + 40, (0 - card.height/4 + 60), text, {fontSize:120, color: "white"})
-
-      this.add(card)
-      this.add(cardText)
-
-      this.scene.add.existing(this)
-      this.setScale(0.25)
-  }
-}
-
 class mainScene extends Phaser.Scene {
   constructor () {
     super({ key: 'mainScene' })
@@ -59,19 +37,23 @@ class mainScene extends Phaser.Scene {
 
   preload () {
     this.load.image("gameboard", gameboardImg)
-    this.load.image("characterCard", characterCardImg )
+    this.load.image("characterCard", characterCardImg)
   }
 
-  create () {
-    const gameboard = this.add.image(screenWidth/2, screenHeight/2, "gameboard").setScale(.75)//need to stretch scale to screen width
-    const card = new Character(this, screenWidth * .1, screenHeight * .6, "characterCard", "matthew")
+  create () {    
+    const gameboard = this.add.image(960,540, "gameboard")
+    const card1Container = this.add.container()
+    const card1Text = this.add.text(15,730,"Matthew",{fontSize:40, color: "white"})
+    const card1Sprite = this.add.sprite(0,717, "characterCard").setOrigin(0,0)
+    card1Container.add([card1Sprite,card1Text])
   }
 }
 
+
+
 const config = {
-  type: Phaser.AUTO,
-  width: screenWidth,
-  height: screenHeight,
+  width: 1920,
+  height: 1080,
   scene: [UIScene, mainScene]
 }
 
