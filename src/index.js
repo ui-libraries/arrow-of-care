@@ -8,6 +8,14 @@ import characterCardImg from "./assets/character-card.png"
 const screenWidth = 1920  
 const screenHeight = 1080
 
+function addCard(scene, x, y, key, text) {
+  const container = scene.add.container()
+  const cardText = scene.add.text(x,y,text,{fontSize:40, color: "white"})
+  const sprite = scene.add.sprite(x,y, key).setOrigin(0,0)
+  container.add([sprite, cardText])
+  return container
+}
+
 console.log(characterCardImg)
 class UIScene extends Phaser.Scene {
   constructor () {
@@ -42,12 +50,12 @@ class mainScene extends Phaser.Scene {
 
   create () {    
     const gameboard = this.add.image(960,540, "gameboard")
-    const card1Container = this.add.container()
-    const card1Text = this.add.text(15,730,"Matthew",{fontSize:40, color: "white"})
-    const card1Sprite = this.add.sprite(0,717, "characterCard").setOrigin(0,0)
-    card1Container.add([card1Sprite,card1Text])
+    const card = addCard(this, 0, 717, "characterCard","Ethan")
+    const card2 = addCard(this, 240, 717, "characterCard","Matthew")
   }
 }
+
+
 
 
 
