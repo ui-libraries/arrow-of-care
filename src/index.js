@@ -8,11 +8,14 @@ import characterCardImg from "./assets/character-card.png"
 const screenWidth = 1920  
 const screenHeight = 1080
 
-function addCard(scene, x, y, key, text) {
+function addCard(scene, x, y, key, content) {
   const container = scene.add.container()
-  const cardText = scene.add.text(x,y,text,{fontSize:40, color: "white"})
-  const sprite = scene.add.sprite(x,y, key).setOrigin(0,0)
-  container.add([sprite, cardText])
+  const cardName = scene.add.text(x+20,y+15,content.name,{fontSize:40, color: "white"})
+  const sprite = scene.add.sprite(x,y, key).setOrigin(0,0).setInteractive()
+  sprite.on('pointerdown', () => {
+    console.log(content.name)
+  }, this)
+  container.add([sprite, cardName])
   return container
 }
 
@@ -50,8 +53,14 @@ class mainScene extends Phaser.Scene {
 
   create () {    
     const gameboard = this.add.image(960,540, "gameboard")
-    const card = addCard(this, 0, 717, "characterCard","Ethan")
-    const card2 = addCard(this, 240, 717, "characterCard","Matthew")
+    const blaise = addCard(this, 0, 717, "characterCard",{"name":"Blaise"})
+    const robert = addCard(this, 240, 717, "characterCard",{"name":"Robert"})
+    const rosario = addCard(this, 480, 717, "characterCard",{"name":"Rosario"})
+    const baby = addCard(this, 720, 717, "characterCard",{"name":"Dr. Baby"})
+    const keara = addCard(this, 960, 717, "characterCard",{"name":"Keara"})
+    const maya = addCard(this, 1200, 717, "characterCard",{"name":"Maya"})
+    const tammy = addCard(this, 1440, 717, "characterCard",{"name":"Tammy"})
+    const Yusef = addCard(this, 1680, 717, "characterCard",{"name":"Yusef"})
   }
 }
 
