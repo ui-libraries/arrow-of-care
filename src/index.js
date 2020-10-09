@@ -45,6 +45,19 @@ function takeTurn(currentGame) {
   return val
 }
 
+function getCardText(index) {
+  const state = gameStates[index]
+  const list = cards[state]
+  if (list !== undefined) {
+    const rand = Math.floor(Math.random() * Math.floor(list.length))
+    const card = cards[state][rand]
+    const text = card.text
+    return text
+  } else {
+    return "Start"
+  }
+}
+
 class UIScene extends Phaser.Scene {
   constructor () {
     super({ key: 'UIScene' });
@@ -82,9 +95,9 @@ class mainScene extends Phaser.Scene {
     currentGame.setDataEnabled()
     currentGame.setData({"rocket":0,"gameState":0})    
     const gameboard = this.add.image(960,540, "gameboard")
-    const rocketText = this.add.text(58,75, "rocket pieces: " + currentGame.data.values.rocket, {fontSize:40, color: "red", wordWrap: {width: 450}})
-    const cardText = this.add.text(58, 175, "card: " + gameStates[currentGame.data.values.gameState], {fontSize:40, color: "red", wordWrap: {width: 500}})
-    const progressText = this.add.text(58, 275, "stage completion: " + ((currentGame.data.values.gameState/16*100) + "%"),{fontSize:40, color: "red", wordWrap: {width: 650}})
+    const rocketText = this.add.text(58,75, "rocket pieces: " + currentGame.data.values.rocket, {fontSize:40, color: "red", backgroundColor: "white", wordWrap: {width: 650}})
+    const cardText = this.add.text(58, 275, "card: " + getCardText(currentGame.data.values.gameState), {fontSize:40, color: "red", backgroundColor: "white", wordWrap: {width: 650}})
+    const progressText = this.add.text(58, 575, "stage completion: " + ((currentGame.data.values.gameState/16*100) + "%"),{fontSize:40, color: "red", backgroundColor: "white", wordWrap: {width: 650}})
     const rollButton = this.add.sprite(screenWidth/2,screenHeight/2, "roll-button").setScale(0.2).setInteractive()
     const blaise = addCard(this, 0, 717, "characterCard",{"name":"Blaise","health":10,"skills": "ELH","age":38,"role":"Engineer"})
     const robert = addCard(this, 240, 717, "characterCard",{"name":"Robert","health":10,"skills": "ELH","age":26,"role":"Cook"})
@@ -98,7 +111,7 @@ class mainScene extends Phaser.Scene {
       const val = takeTurn(currentGame)
       currentGame.setData(val)
       rocketText.setText("rocket pieces: " + currentGame.data.values.rocket)
-      cardText.setText("card: " + gameStates[currentGame.data.values.gameState])
+      cardText.setText("card: " + getCardText(currentGame.data.values.gameState))
       progressText.setText("stage completion: " + ((currentGame.data.values.gameState/16*100) + "%"))
     }, this)
   }
