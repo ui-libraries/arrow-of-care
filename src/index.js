@@ -1,6 +1,7 @@
 import Phaser from "phaser"
 import logoImg from "./assets/rocket.png"
 import startButtonImg from "./assets/start-button.png"
+import rollButtonImg from "./assets/roll-button.png"
 import leaderboardButtonImg from "./assets/leaderboard-button.png"
 import gameboardImg from "./assets/background.jpg"
 import characterCardImg from "./assets/character-card.png"
@@ -34,14 +35,14 @@ function takeTurn(currentGame) {
   const roll = diceRoll()
   const gameState = currentGame.data.values.gameState
   let newIndex = roll + gameState
+  let rocket = currentGame.data.values.rocket
   if (newIndex > 15) {
-    let rocket = currentGame.data.values.rocket
+    rocket = currentGame.data.values.rocket
     rocket = rocket + 1
-    currentGame.data.set("rocket", rocket)
     newIndex = newIndex - 16
-    currentGame.data.set("gameState", newIndex)
   }
-  return newIndex
+  const val = {"rocket": rocket,"gameState":newIndex}
+  return val
 }
 
 class UIScene extends Phaser.Scene {
@@ -73,13 +74,15 @@ class mainScene extends Phaser.Scene {
   preload () {
     this.load.image("gameboard", gameboardImg)
     this.load.image("characterCard", characterCardImg)
+    this.load.image("roll-button", rollButtonImg)
   }
 
   create () {    
     let currentGame = this.add.container()
     currentGame.setDataEnabled()
-    currentGame.setData({"rocket":0,"gameState":14})
+    currentGame.setData({"rocket":0,"gameState":0})    
     const gameboard = this.add.image(960,540, "gameboard")
+    const rollButton = this.add.sprite(screenWidth/2,screenHeight/2, "roll-button").setScale(0.2).setInteractive()
     const blaise = addCard(this, 0, 717, "characterCard",{"name":"Blaise","health":10,"skills": "ELH","age":38,"role":"Engineer"})
     const robert = addCard(this, 240, 717, "characterCard",{"name":"Robert","health":10,"skills": "ELH","age":26,"role":"Cook"})
     const rosario = addCard(this, 480, 717, "characterCard",{"name":"Rosario","health":10,"skills": "ELH","age":44,"role":"Captain"})
@@ -88,6 +91,11 @@ class mainScene extends Phaser.Scene {
     const maya = addCard(this, 1200, 717, "characterCard",{"name":"Maya","health":9,"skills": "EL","age":47,"role":"Passenger"})
     const tammy = addCard(this, 1440, 717, "characterCard",{"name":"Tammy","health":9,"skills": "EL","age":35,"role":"Veteran"})
     const Yusef = addCard(this, 1680, 717, "characterCard",{"name":"Yusef","health":9,"skills": "EL","age":5,"role":"Scientist"})
+    rollButton.on('pointerdown', () => {
+      const val = takeTurn(currentGame)
+      currentGame.setData(val)
+      console.log(currentGame)
+    }, this)
   }
 }
 
