@@ -82,6 +82,9 @@ class mainScene extends Phaser.Scene {
     currentGame.setDataEnabled()
     currentGame.setData({"rocket":0,"gameState":0})    
     const gameboard = this.add.image(960,540, "gameboard")
+    const rocketText = this.add.text(58,75, "rocket pieces: " + currentGame.data.values.rocket, {fontSize:40, color: "red", wordWrap: {width: 450}})
+    const cardText = this.add.text(58, 175, "card: " + gameStates[currentGame.data.values.gameState], {fontSize:40, color: "red", wordWrap: {width: 500}})
+    const progressText = this.add.text(58, 275, "stage completion: " + ((currentGame.data.values.gameState/16*100) + "%"),{fontSize:40, color: "red", wordWrap: {width: 650}})
     const rollButton = this.add.sprite(screenWidth/2,screenHeight/2, "roll-button").setScale(0.2).setInteractive()
     const blaise = addCard(this, 0, 717, "characterCard",{"name":"Blaise","health":10,"skills": "ELH","age":38,"role":"Engineer"})
     const robert = addCard(this, 240, 717, "characterCard",{"name":"Robert","health":10,"skills": "ELH","age":26,"role":"Cook"})
@@ -94,7 +97,9 @@ class mainScene extends Phaser.Scene {
     rollButton.on('pointerdown', () => {
       const val = takeTurn(currentGame)
       currentGame.setData(val)
-      console.log(currentGame)
+      rocketText.setText("rocket pieces: " + currentGame.data.values.rocket)
+      cardText.setText("card: " + gameStates[currentGame.data.values.gameState])
+      progressText.setText("stage completion: " + ((currentGame.data.values.gameState/16*100) + "%"))
     }, this)
   }
 }
