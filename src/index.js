@@ -26,6 +26,24 @@ function addCard(scene, x, y, key, content) {
   return container
 }
 
+function diceRoll() {
+  return Math.floor(Math.random() * Math.floor(6)) + 1
+}
+
+function takeTurn(currentGame) {
+  const roll = diceRoll()
+  const gameState = currentGame.data.values.gameState
+  let newIndex = roll + gameState
+  if (newIndex > 15) {
+    let rocket = currentGame.data.values.rocket
+    rocket = rocket + 1
+    currentGame.data.set("rocket", rocket)
+    newIndex = newIndex - 16
+    currentGame.data.set("gameState", newIndex)
+  }
+  return newIndex
+}
+
 class UIScene extends Phaser.Scene {
   constructor () {
     super({ key: 'UIScene' });
@@ -57,8 +75,10 @@ class mainScene extends Phaser.Scene {
     this.load.image("characterCard", characterCardImg)
   }
 
-  create () {
-    console.log(cards.care) 
+  create () {    
+    let currentGame = this.add.container()
+    currentGame.setDataEnabled()
+    currentGame.setData({"rocket":0,"gameState":14})
     const gameboard = this.add.image(960,540, "gameboard")
     const blaise = addCard(this, 0, 717, "characterCard",{"name":"Blaise","health":10,"skills": "ELH","age":38,"role":"Engineer"})
     const robert = addCard(this, 240, 717, "characterCard",{"name":"Robert","health":10,"skills": "ELH","age":26,"role":"Cook"})
@@ -68,9 +88,7 @@ class mainScene extends Phaser.Scene {
     const maya = addCard(this, 1200, 717, "characterCard",{"name":"Maya","health":9,"skills": "EL","age":47,"role":"Passenger"})
     const tammy = addCard(this, 1440, 717, "characterCard",{"name":"Tammy","health":9,"skills": "EL","age":35,"role":"Veteran"})
     const Yusef = addCard(this, 1680, 717, "characterCard",{"name":"Yusef","health":9,"skills": "EL","age":5,"role":"Scientist"})
-    blaise.data.values.health -= 2
   }
-
 }
 
 const config = {
