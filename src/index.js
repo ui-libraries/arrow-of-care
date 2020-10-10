@@ -106,7 +106,7 @@ class mainScene extends Phaser.Scene {
     const keara = addCard(this, 960, 717, "characterCard",{"name":"Keara","health":8,"skills": "E","age":88,"role":"Former Chief Engineer"})
     const maya = addCard(this, 1200, 717, "characterCard",{"name":"Maya","health":9,"skills": "EL","age":47,"role":"Passenger"})
     const tammy = addCard(this, 1440, 717, "characterCard",{"name":"Tammy","health":9,"skills": "EL","age":35,"role":"Veteran"})
-    const Yusef = addCard(this, 1680, 717, "characterCard",{"name":"Yusef","health":9,"skills": "EL","age":5,"role":"Scientist"})
+    const yusef = addCard(this, 1680, 717, "characterCard",{"name":"Yusef","health":9,"skills": "EL","age":5,"role":"Scientist"})
     rollButton.on('pointerdown', () => {
       const val = takeTurn(currentGame)
       currentGame.setData(val)
