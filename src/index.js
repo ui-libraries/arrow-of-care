@@ -7,6 +7,7 @@ import gameboardImg from "./assets/background.jpg"
 import characterCardImg from "./assets/character-card.png"
 import assignButtonImg from "./assets/assign-button.png"
 import ignoreButtonImg from "./assets/ignore-button.png"
+import confirmButtonImg from "./assets/confirm-button.png"
 import {cards} from "./cards.js"
 
 
@@ -25,6 +26,12 @@ function addCard(scene, x, y, key, content) {
   container.data.set('health', content.health)
   sprite.on('pointerdown', () => {
     console.log(container.data.values.health)
+    if (container.data.values.is_selected == false) {
+      container.data.set("is_selected", true)
+    } else {
+      container.data.set("is_selected", false)
+    }
+    console.log(container.data.values.is_selected)
   }, this)
   container.add([sprite, cardName])
   return container
@@ -58,10 +65,12 @@ function getCard(index) {
 }
 
 function createOptions(scene) {
+  const card = scene.children.list[0].data.list.card
+  console.log(card.type)
   const assignButton = scene.add.sprite(screenWidth/2,screenHeight/2 + 100, "assign-button").setScale(0.1).setInteractive()
   const ignoreButton = scene.add.sprite(screenWidth/2,screenHeight/2 + 200, "ignore-button").setScale(0.1).setInteractive()
   assignButton.on('pointerdown', () => {
-    console.log("assign people")
+    assignCare(scene)
   }, this)
   ignoreButton.on('pointerdown', () => {
     ignoreCareCard(scene)
@@ -69,7 +78,7 @@ function createOptions(scene) {
 }
 
 function ignoreCareCard(scene) {
-  const card = scene.children.list[0].data.list.card
+  const card = scene.currentGame.data.values.card
   const targets = card.targets
   for (let i=0; i<targets.length; i++) {
     let character = getCharacterByName(scene, targets[i])
@@ -79,11 +88,29 @@ function ignoreCareCard(scene) {
   }
 }
 
+function assignCare(scene) {
+  const group = scene.characterList.children.entries
+  const card = scene.currentGame.data.values.card
+  const confirmButton = scene.add.sprite(screenWidth/2 + 200,screenHeight/2, "confirm-button").setScale(0.1).setInteractive()
+  confirmButton.on("pointerdown", () => {
+    group.forEach(element => {
+      const characterHealth = element.data.values.health
+      let newHealth = characterHealth + card.value
+      element.data.set("health", newHealth)
+    })
+  }, this)
+
+  //reset is_selected to false
+  group.forEach(element => {
+    element.data.set("is_selected", false)
+  })
+
+}
+
 function getCharacterByName(scene, characterName) {
   const list = scene.children.list
   let character = {}
   list.forEach(element => {
-    console.log(element.name)
     if (element.name == characterName) {
       character = element
     }
@@ -123,20 +150,20 @@ class mainScene extends Phaser.Scene {
     this.load.image("roll-button", rollButtonImg)
     this.load.image("assign-button", assignButtonImg)
     this.load.image("ignore-button", ignoreButtonImg)
+    this.load.image("confirm-button", confirmButtonImg)
   }
 
   create () {
-    //make sure currentGame is added first for correct indexing in card functions
-    let currentGame = this.add.container()
-    currentGame.setDataEnabled()
-    currentGame.setData({"rocket":0,"gameState":0,"card": {"text": "Start"}})
+    this.currentGame = this.add.container()
+    this.currentGame.setDataEnabled()
+    this.currentGame.setData({"rocket":0,"gameState":0,"card": {"text": "Start"}})
 
     const gameboard = this.add.image(960,540, "gameboard")
 
-    const rocketText = this.add.text(58,75, "rocket pieces: " + currentGame.data.values.rocket, {fontSize:40, color: "red", backgroundColor: "white", wordWrap: {width: 650}})
-    const currentCard = getCard(currentGame.data.values.gameState)
+    const rocketText = this.add.text(58,75, "rocket pieces: " + this.currentGame.data.values.rocket, {fontSize:40, color: "red", backgroundColor: "white", wordWrap: {width: 650}})
+    const currentCard = getCard(this.currentGame.data.values.gameState)
     const cardText = this.add.text(58, 275, "card: " + currentCard.text, {fontSize:40, color: "red", backgroundColor: "white", wordWrap: {width: 650}})
-    const progressText = this.add.text(58, 575, "stage completion: " + ((currentGame.data.values.gameState/16*100) + "%"),{fontSize:40, color: "red", backgroundColor: "white", wordWrap: {width: 650}})
+    const progressText = this.add.text(58, 575, "stage completion: " + ((this.currentGame.data.values.gameState/16*100) + "%"),{fontSize:40, color: "red", backgroundColor: "white", wordWrap: {width: 650}})
     
     const rollButton = this.add.sprite(screenWidth/2,screenHeight/2, "roll-button").setScale(0.2).setInteractive()
     
@@ -148,18 +175,18 @@ class mainScene extends Phaser.Scene {
     const maya = addCard(this, 1200, 717, "characterCard",{"name":"maya","health":9,"skills": "EL","age":47,"role":"Passenger","is_selected": false})
     const tammy = addCard(this, 1440, 717, "characterCard",{"name":"tammy","health":9,"skills": "EL","age":35,"role":"Veteran","is_selected": false})
     const yusef = addCard(this, 1680, 717, "characterCard",{"name":"yusef","health":9,"skills": "EL","age":5,"role":"Scientist","is_selected": false})
+    this.characterList = this.add.group()
+    this.characterList.addMultiple([blaise, robert, rosario, baby, keara, maya, tammy, yusef])
     
     rollButton.on('pointerdown', () => {
-      const val = takeTurn(currentGame)
-      currentGame.setData(val)
-      rocketText.setText("rocket pieces: " + currentGame.data.values.rocket)
-      const currentCard = getCard(currentGame.data.values.gameState)
-      currentGame.data.set("card", currentCard)
+      const val = takeTurn(this.currentGame)
+      this.currentGame.setData(val)
+      rocketText.setText("rocket pieces: " + this.currentGame.data.values.rocket)
+      const currentCard = getCard(this.currentGame.data.values.gameState)
+      this.currentGame.data.set("card", currentCard)
       cardText.setText("card: " + currentCard.text)
-      progressText.setText("stage completion: " + ((currentGame.data.values.gameState/16*100) + "%"))
+      progressText.setText("stage completion: " + ((this.currentGame.data.values.gameState/16*100) + "%"))
       createOptions(this)
-      const c = getCharacterByName(this, "baby")
-      console.log(c)
     }, this)
   }
 }
