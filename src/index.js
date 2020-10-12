@@ -5,6 +5,8 @@ import rollButtonImg from "./assets/roll-button.png"
 import leaderboardButtonImg from "./assets/leaderboard-button.png"
 import gameboardImg from "./assets/background.jpg"
 import characterCardImg from "./assets/character-card.png"
+import assignButtonImg from "./assets/assign-button.png"
+import ignoreButtonImg from "./assets/ignore-button.png"
 import {cards} from "./cards.js"
 
 
@@ -44,16 +46,33 @@ function takeTurn(currentGame) {
   return val
 }
 
-function getCardText(index) {
+function getCard(index) {
   const state = gameStates[index]
   const list = cards[state]
   if (list !== undefined) {
     const rand = Math.floor(Math.random() * Math.floor(list.length))
     const card = cards[state][rand]
-    const text = card.text
-    return text
-  } else {
-    return "Start"
+    return card
+  }
+}
+
+function createOptions(scene) {
+  const assignButton = scene.add.sprite(screenWidth/2,screenHeight/2 + 100, "assign-button").setScale(0.1).setInteractive()
+  const ignoreButton = scene.add.sprite(screenWidth/2,screenHeight/2 + 200, "ignore-button").setScale(0.1).setInteractive()
+  assignButton.on('pointerdown', () => {
+    console.log("assign people")
+  }, this)
+  ignoreButton.on('pointerdown', () => {
+    ignoreCareCard(scene)
+  }, this)
+}
+
+function ignoreCareCard(scene) {
+  console.log(scene)
+  const card = scene.children.list[0].data.list.card
+  const targets = card.targets
+  for (let i=0; i<targets.length; i++) {
+    console.log(targets[i])
   }
 }
 
@@ -87,36 +106,43 @@ class mainScene extends Phaser.Scene {
     this.load.image("gameboard", gameboardImg)
     this.load.image("characterCard", characterCardImg)
     this.load.image("roll-button", rollButtonImg)
+    this.load.image("assign-button", assignButtonImg)
+    this.load.image("ignore-button", ignoreButtonImg)
   }
 
-  create () {  
+  create () {
+    //make sure currentGame is added first for correct indexing in card functions
     let currentGame = this.add.container()
     currentGame.setDataEnabled()
-    currentGame.setData({"rocket":0,"gameState":0})
+    currentGame.setData({"rocket":0,"gameState":0,"card": {"text": "Start"}})
 
     const gameboard = this.add.image(960,540, "gameboard")
 
     const rocketText = this.add.text(58,75, "rocket pieces: " + currentGame.data.values.rocket, {fontSize:40, color: "red", backgroundColor: "white", wordWrap: {width: 650}})
-    const cardText = this.add.text(58, 275, "card: " + getCardText(currentGame.data.values.gameState), {fontSize:40, color: "red", backgroundColor: "white", wordWrap: {width: 650}})
+    const currentCard = getCard(currentGame.data.values.gameState)
+    const cardText = this.add.text(58, 275, "card: " + currentCard.text, {fontSize:40, color: "red", backgroundColor: "white", wordWrap: {width: 650}})
     const progressText = this.add.text(58, 575, "stage completion: " + ((currentGame.data.values.gameState/16*100) + "%"),{fontSize:40, color: "red", backgroundColor: "white", wordWrap: {width: 650}})
     
     const rollButton = this.add.sprite(screenWidth/2,screenHeight/2, "roll-button").setScale(0.2).setInteractive()
     
-    const blaise = addCard(this, 0, 717, "characterCard",{"name":"Blaise","health":10,"skills": "ELH","age":38,"role":"Engineer"})
-    const robert = addCard(this, 240, 717, "characterCard",{"name":"Robert","health":10,"skills": "ELH","age":26,"role":"Cook"})
-    const rosario = addCard(this, 480, 717, "characterCard",{"name":"Rosario","health":10,"skills": "ELH","age":44,"role":"Captain"})
-    const baby = addCard(this, 720, 717, "characterCard",{"name":"Dr. Baby","health":7,"skills": "","age":1,"role":"Physician"})
-    const keara = addCard(this, 960, 717, "characterCard",{"name":"Keara","health":8,"skills": "E","age":88,"role":"Former Chief Engineer"})
-    const maya = addCard(this, 1200, 717, "characterCard",{"name":"Maya","health":9,"skills": "EL","age":47,"role":"Passenger"})
-    const tammy = addCard(this, 1440, 717, "characterCard",{"name":"Tammy","health":9,"skills": "EL","age":35,"role":"Veteran"})
-    const yusef = addCard(this, 1680, 717, "characterCard",{"name":"Yusef","health":9,"skills": "EL","age":5,"role":"Scientist"})
+    const blaise = addCard(this, 0, 717, "characterCard",{"name":"blaise","health":10,"skills": "ELH","age":38,"role":"Engineer","is_selected": false})
+    const robert = addCard(this, 240, 717, "characterCard",{"name":"robert","health":10,"skills": "ELH","age":26,"role":"Cook","is_selected": false})
+    const rosario = addCard(this, 480, 717, "characterCard",{"name":"rosario","health":10,"skills": "ELH","age":44,"role":"Captain","is_selected": false})
+    const baby = addCard(this, 720, 717, "characterCard",{"name":"baby","health":7,"skills": "","age":1,"role":"Physician","is_selected": false})
+    const keara = addCard(this, 960, 717, "characterCard",{"name":"keara","health":8,"skills": "E","age":88,"role":"Former Chief Engineer","is_selected": false})
+    const maya = addCard(this, 1200, 717, "characterCard",{"name":"maya","health":9,"skills": "EL","age":47,"role":"Passenger","is_selected": false})
+    const tammy = addCard(this, 1440, 717, "characterCard",{"name":"tammy","health":9,"skills": "EL","age":35,"role":"Veteran","is_selected": false})
+    const yusef = addCard(this, 1680, 717, "characterCard",{"name":"yusef","health":9,"skills": "EL","age":5,"role":"Scientist","is_selected": false})
     
     rollButton.on('pointerdown', () => {
       const val = takeTurn(currentGame)
       currentGame.setData(val)
       rocketText.setText("rocket pieces: " + currentGame.data.values.rocket)
-      cardText.setText("card: " + getCardText(currentGame.data.values.gameState))
+      const currentCard = getCard(currentGame.data.values.gameState)
+      currentGame.data.set("card", currentCard)
+      cardText.setText("card: " + currentCard.text)
       progressText.setText("stage completion: " + ((currentGame.data.values.gameState/16*100) + "%"))
+      createOptions(this)
     }, this)
   }
 }

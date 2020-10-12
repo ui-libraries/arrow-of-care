@@ -2,12 +2,14 @@ export const cards = {
     care: [{
             "text": "Dr. Baby has a high fever.",
             "skill": "H",
-            "targets": ["baby"]
+            "targets": ["baby"],
+            "value": -2
         },
         {
             "text": "Robert has lice and needs his person/possessions cleaned.",
             "skill": "H",
-            "targets": ["robert"]
+            "targets": ["robert"],
+            "value": -2
         }
     ],
     bonus: [{
@@ -19,7 +21,7 @@ export const cards = {
             "text": "Medicine found",
             "targets": ["baby", "yusef", "keara"],
             "value": 1
-        },
+            },
         {
             "text": "Rocket owner's manual discovered.",
             "targets": "rocket",
@@ -35,6 +37,16 @@ export const cards = {
             "text": "Housing needs to be built.",
             "targets": ["assign"],
             "value": -2
+        }
+    ],
+    start: [
+        {
+            "text": "Start"
+        }
+    ],
+    crevasse: [
+        {
+            "text": "Crevasse"
         }
     ]
 }
