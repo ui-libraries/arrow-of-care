@@ -17,6 +17,7 @@ const gameStates = ["start","care","care","care","bonus","catastrophe","care","c
 
 function addCard(scene, x, y, key, content) {
   const container = scene.add.container()
+  container.name = content.name
   const cardName = scene.add.text(x+20,y+15,content.name,{fontSize:40, color: "white"})
   const bio = scene.add.text(x+58,y+75, "", {fontSize:15, color: "white", wordWrap: {width: 175}})
   const sprite = scene.add.sprite(x,y, key).setOrigin(0,0).setInteractive()
@@ -68,12 +69,26 @@ function createOptions(scene) {
 }
 
 function ignoreCareCard(scene) {
-  console.log(scene)
   const card = scene.children.list[0].data.list.card
   const targets = card.targets
   for (let i=0; i<targets.length; i++) {
-    console.log(targets[i])
+    let character = getCharacterByName(scene, targets[i])
+    const characterHealth = character.data.values.health
+    const newHealth = characterHealth + card.value
+    character.data.set("health", newHealth)
   }
+}
+
+function getCharacterByName(scene, characterName) {
+  const list = scene.children.list
+  let character = {}
+  list.forEach(element => {
+    console.log(element.name)
+    if (element.name == characterName) {
+      character = element
+    }
+  })
+  return character
 }
 
 class UIScene extends Phaser.Scene {
@@ -143,6 +158,8 @@ class mainScene extends Phaser.Scene {
       cardText.setText("card: " + currentCard.text)
       progressText.setText("stage completion: " + ((currentGame.data.values.gameState/16*100) + "%"))
       createOptions(this)
+      const c = getCharacterByName(this, "baby")
+      console.log(c)
     }, this)
   }
 }
