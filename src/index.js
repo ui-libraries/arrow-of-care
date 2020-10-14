@@ -4,7 +4,7 @@ import startButtonImg from "./assets/start-button.png"
 import rollButtonImg from "./assets/roll-button.png"
 import leaderboardButtonImg from "./assets/leaderboard-button.png"
 import gameboardImg from "./assets/background.jpg"
-import characterCardImg from "./assets/character-card.png"
+import characterImg from "./assets/character-card.png"
 import assignButtonImg from "./assets/assign-button.png"
 import ignoreButtonImg from "./assets/ignore-button.png"
 import confirmButtonImg from "./assets/confirm-button.png"
@@ -16,10 +16,13 @@ const screenHeight = 1080
 const gameStates = ["start","care","care","care","bonus","catastrophe","care","care","crevasse","care","care","care","care","bonus","care","catastrophe"]
 
 
-function addCard(scene, x, y, key, content) {
+function addCharacter(scene, x, y, key, content) {
   const container = scene.add.container()
   container.name = content.name
-  const cardName = scene.add.text(x+20,y+15,content.name,{fontSize:40, color: "white"})
+  const characterName = scene.add.text(x+20,y+15,content.name,{fontSize:40, color: "white"})
+  let characterHealth = scene.add.text(x+60,y+85,"Health: " + content.health,{fontSize:20, color: "white", wordWrap: {width: 175}})
+  characterHealth.name = "characterHealthText"
+  const characterSkills = scene.add.text(x+60,y+115,"Skills: " + content.skills,{fontSize:20, color: "white", wordWrap: {width: 175}})
   const bio = scene.add.text(x+58,y+75, "", {fontSize:15, color: "white", wordWrap: {width: 175}})
   const sprite = scene.add.sprite(x,y, key).setOrigin(0,0).setInteractive()
   container.setDataEnabled()
@@ -34,7 +37,7 @@ function addCard(scene, x, y, key, content) {
       sprite.setAlpha(1)
     }
   }, this)
-  container.add([sprite, cardName])
+  container.add([sprite, characterName, characterHealth, characterSkills])
   return container
 }
 
@@ -91,8 +94,18 @@ function ignoreCareCard(scene) {
     let character = getCharacterByName(scene, targets[i])
     const characterHealth = character.data.values.health
     const newHealth = characterHealth + card.value
-    character.data.set("health", newHealth)
+    updateCharacterHealth(character, newHealth)
   }
+}
+
+function updateCharacterHealth(character, newHealth) {
+  const children = character.list
+  character.data.set("health", newHealth)
+  children.forEach(element => {
+    if (element.name == "characterHealthText") {
+      element.setText("Health: " + newHealth)
+    }
+  })
 }
 
 function assignCare(scene) {
@@ -111,9 +124,8 @@ function assignCare(scene) {
         if (checkSkills(element, card.skill) == true) {
           const characterHealth = element.data.values.health
           let newHealth = characterHealth + (card.value/card.numTargets)
-          element.data.set("health", newHealth)
+          updateCharacterHealth(element, newHealth)
           element.data.set("is_locked", true)
-          console.log(element.name + " health is now set to " + newHealth)
           turnComplete(scene)
         } else {
           console.log(element.name + " does not have the required skill")
@@ -135,7 +147,7 @@ function turnComplete(scene) {
   })
   if (count == card.numTargets) {
     children.forEach(element => {
-      if(element.button == "decision") {
+      if (element.button == "decision") {
         element.setActive(false).setVisible(false)
         group.forEach(val => {
           let sprite = val.list[0]
@@ -196,7 +208,7 @@ class mainScene extends Phaser.Scene {
 
   preload () {
     this.load.image("gameboard", gameboardImg)
-    this.load.image("characterCard", characterCardImg)
+    this.load.image("character", characterImg)
     this.load.image("roll-button", rollButtonImg)
     this.load.image("assign-button", assignButtonImg)
     this.load.image("ignore-button", ignoreButtonImg)
@@ -217,17 +229,17 @@ class mainScene extends Phaser.Scene {
     
     const rollButton = this.add.sprite(screenWidth/2,screenHeight/2, "roll-button").setScale(0.2).setInteractive()
     
-    const blaise = addCard(this, 0, 717, "characterCard",{"name":"blaise","health":10,"skills": "ELH","age":38,"role":"Engineer","is_selected": false, "is_locked": false})
-    const robert = addCard(this, 240, 717, "characterCard",{"name":"robert","health":10,"skills": "ELH","age":26,"role":"Cook","is_selected": false, "is_locked": false})
-    const rosario = addCard(this, 480, 717, "characterCard",{"name":"rosario","health":10,"skills": "ELH","age":44,"role":"Captain","is_selected": false, "is_locked": false})
-    const baby = addCard(this, 720, 717, "characterCard",{"name":"baby","health":7,"skills": "","age":1,"role":"Physician","is_selected": false, "is_locked": false})
-    const keara = addCard(this, 960, 717, "characterCard",{"name":"keara","health":8,"skills": "E","age":88,"role":"Former Chief Engineer","is_selected": false, "is_locked": false})
-    const maya = addCard(this, 1200, 717, "characterCard",{"name":"maya","health":9,"skills": "EL","age":47,"role":"Passenger","is_selected": false, "is_locked": false})
-    const tammy = addCard(this, 1440, 717, "characterCard",{"name":"tammy","health":9,"skills": "EL","age":35,"role":"Veteran","is_selected": false, "is_locked": false})
-    const yusef = addCard(this, 1680, 717, "characterCard",{"name":"yusef","health":9,"skills": "EL","age":5,"role":"Scientist","is_selected": false, "is_locked": false})
+    const blaise = addCharacter(this, 0, 717, "character",{"name":"blaise","health":10,"skills": "ELH","age":38,"role":"Engineer","is_selected": false, "is_locked": false})
+    const robert = addCharacter(this, 240, 717, "character",{"name":"robert","health":10,"skills": "ELH","age":26,"role":"Cook","is_selected": false, "is_locked": false})
+    const rosario = addCharacter(this, 480, 717, "character",{"name":"rosario","health":10,"skills": "ELH","age":44,"role":"Captain","is_selected": false, "is_locked": false})
+    const baby = addCharacter(this, 720, 717, "character",{"name":"baby","health":7,"skills": "","age":1,"role":"Physician","is_selected": false, "is_locked": false})
+    const keara = addCharacter(this, 960, 717, "character",{"name":"keara","health":8,"skills": "E","age":88,"role":"Former Chief Engineer","is_selected": false, "is_locked": false})
+    const maya = addCharacter(this, 1200, 717, "character",{"name":"maya","health":9,"skills": "EL","age":47,"role":"Passenger","is_selected": false, "is_locked": false})
+    const tammy = addCharacter(this, 1440, 717, "character",{"name":"tammy","health":9,"skills": "EL","age":35,"role":"Veteran","is_selected": false, "is_locked": false})
+    const yusef = addCharacter(this, 1680, 717, "character",{"name":"yusef","health":9,"skills": "EL","age":5,"role":"Scientist","is_selected": false, "is_locked": false})
     this.characterList = this.add.group()
     this.characterList.addMultiple([blaise, robert, rosario, baby, keara, maya, tammy, yusef])
-    console.log(this)
+    console.log(robert)
     
     rollButton.on('pointerdown', () => {
       const val = takeTurn(this.currentGame)
