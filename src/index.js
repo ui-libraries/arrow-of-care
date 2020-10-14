@@ -70,6 +70,8 @@ function createOptions(scene) {
   console.log(card.type)
   const assignButton = scene.add.sprite(screenWidth/2,screenHeight/2 + 100, "assign-button").setScale(0.1).setInteractive()
   const ignoreButton = scene.add.sprite(screenWidth/2,screenHeight/2 + 200, "ignore-button").setScale(0.1).setInteractive()
+  ignoreButton.button = "decision"
+  assignButton.button = "decision"
   assignButton.on('pointerdown', () => {
     assignCare(scene)
   }, this)
@@ -97,6 +99,7 @@ function assignCare(scene) {
   const group = scene.characterList.children.entries
   const card = scene.currentGame.data.values.card
   const confirmButton = scene.add.sprite(screenWidth/2 + 200,screenHeight/2, "confirm-button").setScale(0.1).setInteractive()
+  confirmButton.button = "decision"
 
   group.forEach(element => {
     element.data.set("is_selected", false)
@@ -111,13 +114,38 @@ function assignCare(scene) {
           element.data.set("health", newHealth)
           element.data.set("is_locked", true)
           console.log(element.name + " health is now set to " + newHealth)
+          turnComplete(scene)
         } else {
           console.log(element.name + " does not have the required skill")
-
         }
       }
     })
   }, this)
+}
+
+function turnComplete(scene) {
+  const group = scene.characterList.children.entries
+  const card = scene.currentGame.data.values.card
+  const children = scene.children.list
+  let count = 0
+  group.forEach(element => {
+    if (element.data.values.is_locked == true) {
+      count++
+    }
+  })
+  if (count == card.numTargets) {
+    children.forEach(element => {
+      if(element.button == "decision") {
+        element.setActive(false).setVisible(false)
+        group.forEach(val => {
+          let sprite = val.list[0]
+          val.data.values.is_selected = false
+          val.data.values.is_locked = false
+          sprite.setAlpha(1)
+        })
+      }
+    })
+  }
 }
 
 function getCharacterByName(scene, characterName) {
@@ -199,6 +227,7 @@ class mainScene extends Phaser.Scene {
     const yusef = addCard(this, 1680, 717, "characterCard",{"name":"yusef","health":9,"skills": "EL","age":5,"role":"Scientist","is_selected": false, "is_locked": false})
     this.characterList = this.add.group()
     this.characterList.addMultiple([blaise, robert, rosario, baby, keara, maya, tammy, yusef])
+    console.log(this)
     
     rollButton.on('pointerdown', () => {
       const val = takeTurn(this.currentGame)
