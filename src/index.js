@@ -23,15 +23,16 @@ function addCard(scene, x, y, key, content) {
   const bio = scene.add.text(x+58,y+75, "", {fontSize:15, color: "white", wordWrap: {width: 175}})
   const sprite = scene.add.sprite(x,y, key).setOrigin(0,0).setInteractive()
   container.setDataEnabled()
-  container.data.set('health', content.health)
+  container.setData(content)
   sprite.on('pointerdown', () => {
     console.log(container.data.values.health)
     if (container.data.values.is_selected == false) {
       container.data.set("is_selected", true)
+      sprite.setAlpha(0.5)
     } else {
       container.data.set("is_selected", false)
+      sprite.setAlpha(1)
     }
-    console.log(container.data.values.is_selected)
   }, this)
   container.add([sprite, cardName])
   return container
@@ -75,6 +76,10 @@ function createOptions(scene) {
   ignoreButton.on('pointerdown', () => {
     ignoreCareCard(scene)
   }, this)
+
+  if (card.type == "care") {
+    console.log(card.skill)
+  }
 }
 
 function ignoreCareCard(scene) {
@@ -92,19 +97,27 @@ function assignCare(scene) {
   const group = scene.characterList.children.entries
   const card = scene.currentGame.data.values.card
   const confirmButton = scene.add.sprite(screenWidth/2 + 200,screenHeight/2, "confirm-button").setScale(0.1).setInteractive()
-  confirmButton.on("pointerdown", () => {
-    group.forEach(element => {
-      const characterHealth = element.data.values.health
-      let newHealth = characterHealth + card.value
-      element.data.set("health", newHealth)
-    })
-  }, this)
 
-  //reset is_selected to false
   group.forEach(element => {
     element.data.set("is_selected", false)
   })
+  
+  confirmButton.on("pointerdown", () => {
+    group.forEach(element => {
+      if (element.data.values.is_selected == true && element.data.values.is_locked == false) {
+        if (checkSkills(element, card.skill) == true) {
+          const characterHealth = element.data.values.health
+          let newHealth = characterHealth + (card.value/card.numTargets)
+          element.data.set("health", newHealth)
+          element.data.set("is_locked", true)
+          console.log(element.name + " health is now set to " + newHealth)
+        } else {
+          console.log(element.name + " does not have the required skill")
 
+        }
+      }
+    })
+  }, this)
 }
 
 function getCharacterByName(scene, characterName) {
@@ -116,6 +129,15 @@ function getCharacterByName(scene, characterName) {
     }
   })
   return character
+}
+
+function checkSkills(character, skill) {
+  const characterSkill = character.data.values.skills
+  if (characterSkill.includes(skill)) {
+    return true
+  } else {
+    return false
+  }
 }
 
 class UIScene extends Phaser.Scene {
@@ -167,14 +189,14 @@ class mainScene extends Phaser.Scene {
     
     const rollButton = this.add.sprite(screenWidth/2,screenHeight/2, "roll-button").setScale(0.2).setInteractive()
     
-    const blaise = addCard(this, 0, 717, "characterCard",{"name":"blaise","health":10,"skills": "ELH","age":38,"role":"Engineer","is_selected": false})
-    const robert = addCard(this, 240, 717, "characterCard",{"name":"robert","health":10,"skills": "ELH","age":26,"role":"Cook","is_selected": false})
-    const rosario = addCard(this, 480, 717, "characterCard",{"name":"rosario","health":10,"skills": "ELH","age":44,"role":"Captain","is_selected": false})
-    const baby = addCard(this, 720, 717, "characterCard",{"name":"baby","health":7,"skills": "","age":1,"role":"Physician","is_selected": false})
-    const keara = addCard(this, 960, 717, "characterCard",{"name":"keara","health":8,"skills": "E","age":88,"role":"Former Chief Engineer","is_selected": false})
-    const maya = addCard(this, 1200, 717, "characterCard",{"name":"maya","health":9,"skills": "EL","age":47,"role":"Passenger","is_selected": false})
-    const tammy = addCard(this, 1440, 717, "characterCard",{"name":"tammy","health":9,"skills": "EL","age":35,"role":"Veteran","is_selected": false})
-    const yusef = addCard(this, 1680, 717, "characterCard",{"name":"yusef","health":9,"skills": "EL","age":5,"role":"Scientist","is_selected": false})
+    const blaise = addCard(this, 0, 717, "characterCard",{"name":"blaise","health":10,"skills": "ELH","age":38,"role":"Engineer","is_selected": false, "is_locked": false})
+    const robert = addCard(this, 240, 717, "characterCard",{"name":"robert","health":10,"skills": "ELH","age":26,"role":"Cook","is_selected": false, "is_locked": false})
+    const rosario = addCard(this, 480, 717, "characterCard",{"name":"rosario","health":10,"skills": "ELH","age":44,"role":"Captain","is_selected": false, "is_locked": false})
+    const baby = addCard(this, 720, 717, "characterCard",{"name":"baby","health":7,"skills": "","age":1,"role":"Physician","is_selected": false, "is_locked": false})
+    const keara = addCard(this, 960, 717, "characterCard",{"name":"keara","health":8,"skills": "E","age":88,"role":"Former Chief Engineer","is_selected": false, "is_locked": false})
+    const maya = addCard(this, 1200, 717, "characterCard",{"name":"maya","health":9,"skills": "EL","age":47,"role":"Passenger","is_selected": false, "is_locked": false})
+    const tammy = addCard(this, 1440, 717, "characterCard",{"name":"tammy","health":9,"skills": "EL","age":35,"role":"Veteran","is_selected": false, "is_locked": false})
+    const yusef = addCard(this, 1680, 717, "characterCard",{"name":"yusef","health":9,"skills": "EL","age":5,"role":"Scientist","is_selected": false, "is_locked": false})
     this.characterList = this.add.group()
     this.characterList.addMultiple([blaise, robert, rosario, baby, keara, maya, tammy, yusef])
     
