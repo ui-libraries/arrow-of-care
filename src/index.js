@@ -29,13 +29,7 @@ function addCharacter(scene, x, y, key, content) {
   container.setData(content)
   sprite.on('pointerdown', () => {
     console.log(container.data.values.health)
-    if (container.data.values.is_selected == false) {
-      container.data.set("is_selected", true)
-      sprite.setAlpha(0.5)
-    } else {
-      container.data.set("is_selected", false)
-      sprite.setAlpha(1)
-    }
+    toggleCharacterSelection(container)
   }, this)
   container.add([sprite, characterName, characterHealth, characterSkills])
   return container
@@ -108,6 +102,24 @@ function updateCharacterHealth(character, newHealth) {
   })
 }
 
+function toggleCharacterSelection(character) {
+  const children = character.list
+  let sprite
+  children.forEach(val => {
+    if (val.type == "Sprite") {
+      sprite = val
+    }
+  })
+
+  if (character.data.values.is_selected == false) {
+    character.data.set("is_selected", true)
+    sprite.setAlpha(0.5)
+  } else {
+    character.data.set("is_selected", false)
+    sprite.setAlpha(1)
+  }
+}
+
 function assignCare(scene) {
   const group = scene.characterList.children.entries
   const card = scene.currentGame.data.values.card
@@ -116,8 +128,14 @@ function assignCare(scene) {
 
   group.forEach(element => {
     element.data.set("is_selected", false)
+    card.targets.forEach(val => {
+      if (element.name == val) {
+        toggleCharacterSelection(element)
+        element.list[0].disableInteractive()
+      }
+    })
   })
-  
+
   confirmButton.on("pointerdown", () => {
     group.forEach(element => {
       if (element.data.values.is_selected == true && element.data.values.is_locked == false) {
@@ -146,6 +164,11 @@ function turnComplete(scene) {
     }
   })
   if (count == card.numTargets) {
+    group.forEach(element => {
+      element.list[0].setAlpha(1)
+      element.data.set("is_selected", false)
+      element.data.set("is_locked", false)
+    })
     children.forEach(element => {
       if (element.button == "decision") {
         element.setActive(false).setVisible(false)
