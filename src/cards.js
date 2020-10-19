@@ -1,4 +1,4 @@
-export const cards = {
+export const Cards = {
     care: [{
             "text": "Dr. Baby has a high fever.",
             "skill": "H",
@@ -342,7 +342,7 @@ export const cards = {
             "type": "bonus"
         },
         {
-            "text": "Pasising satellite delivers cell service for an hour.",
+            "text": "Passing satellite delivers cell service for an hour.",
             "targets": ["blaise", "robert", "rosario", "baby", "keara", "maya", "tammy", "yusef"],
             "numTargets": 8,
             "value": 1,
@@ -350,7 +350,7 @@ export const cards = {
         },
         {
             "text": "Save this card and use it to get out of the crevasse.",
-            "targets": "crevasse-bonus",
+            "targets": ["crevasse-bonus"],
             "numTargets": 1,
             "value": 1,
             "type": "bonus"
