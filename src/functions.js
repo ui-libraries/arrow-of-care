@@ -12,6 +12,7 @@ export function getCard(index) {
     const list = Cards[state]
     if (list !== undefined) {
         const rand = Math.floor(Math.random() * Math.floor(list.length))
+        //const rand = 15
         const card = Cards[state][rand]
         return card
     }
@@ -30,7 +31,7 @@ export function renderCard(scene) {
     if (currentCard.targets.length == 0) { targets = "They" }
     let cardText, cardInstructions
     if (currentCard.type == "care") {
-        cardInstructions = ` Select a total of ${currentCard.numTargets} characters with a skill of ${currentCard.skill}.`
+        cardInstructions = ` Select another character with a skill of ${currentCard.skill} to help ${targets}.`
     } else {
         cardInstructions = ` ${targets} receive ${currentCard.value}.`
     }
@@ -103,14 +104,8 @@ export function addCharacter(scene, x, y, key, content) {
  * @return {array} An array of currently selected character containers
  */
 export function toggleCharacterSelection(character, scene) {
-    const children = character.list
-    let sprite, characterList
-    let selected = []
-    children.forEach(child => {
-        if (child.type == "Sprite") {
-            sprite = child
-        }
-    })
+    let selected = [], characterList
+    let sprite = getCharacterBackground(character)
 
     if (character.data.values.is_selected == false) {
         character.data.set("is_selected", true)
@@ -177,9 +172,12 @@ function getCharacterByName(scene, characterName) {
  */
 function checkSkills(character, skill) {
     const characterSkill = character.data.values.skills
+    
     if (characterSkill.includes(skill)) {
+        //console.log(character.name,"true",skill, characterSkill)
         return true
     } else {
+        //console.log(character.name,"false",skill, characterSkill)
         return false
     }
 }
@@ -193,20 +191,20 @@ function checkSkills(character, skill) {
 export function validateTargets(scene) {
     const characterList = scene.characterList.children.entries
     const currentCard = scene.gameStats.data.values.card
+    const targets = currentCard.targets
     const skill = currentCard.skill
-    let count = 0
-    let status = false
-    characterList.forEach(character => {
-        if (character.data.values.is_selected == true) {
-            count++
-            if (count == currentCard.numTargets && checkSkills(character, skill)) {
-                status = true
-            } else {
-                status = false
-            }
-        }
+    let validCharacters = characterList.filter(character => checkSkills(character, skill))
+    let selectedCharacters = characterList.filter(character => character.data.values.is_selected)
+    targets.forEach(target => {
+        validCharacters.push(getCharacterByName(scene, target))
     })
-    return status
+    let invalidCharacters = selectedCharacters.filter(el => validCharacters.indexOf(el) < 0)
+    //checks if there are invalid characters or if the number selected is too high
+    if (invalidCharacters.length > 0 || selectedCharacters.length > currentCard.numTargets) {
+        return false
+    } else {
+        return true
+    }
 }
 
 /**
@@ -230,7 +228,9 @@ function activateCard(scene) {
     if (currentCard.type == "care" && targets.length !== 0) {
         targets.forEach(characterName => {
             let character = getCharacterByName(scene, characterName)
-            toggleCharacterSelection(character, scene)
+            toggleCharacterSelection(character, scene)            
+            let sprite = getCharacterBackground(character)
+            sprite.disableInteractive()
         })
     } else if (currentCard.type !== "care" && targets.length !== 0) {
         targets.forEach(characterName => {
@@ -242,13 +242,47 @@ function activateCard(scene) {
 }
 
 /**
+ * Gets the character sprite
+ * @memberof Functions
+ * @param {object} character - A character container
+ * @return {object} The character container's background sprite
+ */
+function getCharacterBackground(character) {
+    const children = character.list
+    let sprite
+    children.forEach(child => {
+        if (child.type == "Sprite") {
+            sprite = child
+        }
+    })
+    return sprite
+}
+
+/**
+ * Resets character is_selected to false and restores interactivity
+ * @memberof Functions
+ * @param {object} scene - A Phaser scene with characterList
+ * @return {none} modifies character 
+ */
+function resetCharacterSelection(scene) {
+    const characterList = scene.characterList.children.entries
+    characterList.forEach(character => {
+        character.data.set("is_selected", false)
+        let sprite = getCharacterBackground(character)
+        sprite.setInteractive()
+    })
+}
+
+/**
  * Takes a turn by rendering and activating a card
  * @memberof Functions
  * @param {object} scene - A Phaser scene with characterList
  * @return {object} The updated gameStats
  */
 export function takeTurn(scene) {
-    const roll = diceRoll()
+    resetCharacterSelection(scene)
+    //const roll = diceRoll()
+    const roll = 1
     const gameState = scene.gameStats.data.values.gameState
     let newIndex = roll + gameState
     let rocket = scene.gameStats.data.values.rocket

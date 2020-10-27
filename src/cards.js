@@ -122,7 +122,7 @@ export const Cards = {
         {
             "text": "Dinner needs to be cooked.",
             "skill": "L",
-            "targets": [""],
+            "targets": [],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -130,7 +130,7 @@ export const Cards = {
         {
             "text": "Food needs to be found in the wreckage.",
             "skill": "H",
-            "targets": [""],
+            "targets": [],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -138,7 +138,7 @@ export const Cards = {
         {
             "text": "Bathroom facilities must be built.",
             "skill": "H",
-            "targets": [""],
+            "targets": [],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -258,7 +258,7 @@ export const Cards = {
         {
             "text": "Tammy has a nightmare.",
             "skill": "E",
-            "targets": ["yusef"],
+            "targets": ["tammy"],
             "numTargets": 2,
             "value": -2,
             "type": "care"

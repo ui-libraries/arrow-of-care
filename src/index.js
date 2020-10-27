@@ -138,6 +138,7 @@ mainScene.create = function(data) {
 
     this.characterList = this.add.group()
     this.characterList.addMultiple([blaise, robert, rosario, baby, keara, maya, tammy, yusef])
+    const confirmButton = this.add.sprite(screenWidth/2, screenHeight/2, "confirm-button").setScale(0.2).setInteractive()
     takeTurn(this)
 }
 
