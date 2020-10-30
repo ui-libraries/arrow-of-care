@@ -128,9 +128,8 @@ export function toggleCharacterSelection(character, scene) {
 /**
  * Updates Character health in container data as well as text
  * @memberof Functions
- * @param {object} character - A character container object
- * @param {number} newHealth - the new value to set for character's health
- * @return {object} A container object of the character
+ * @param {object} scene - A Phaser scene with characterList
+ * @return {none}
  */
 export function updateCharacterHealth(scene) {
     const characterList = scene.characterList.children.entries

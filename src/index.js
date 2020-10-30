@@ -148,6 +148,7 @@ mainScene.create = function(data) {
             rocketText.setText("rocket pieces: " + this.gameStats.data.values.rocket)
             if (this.gameStats.data.values.rocket == 7) {
                 console.log("YOU WIN!!!!")
+                this.scene.start('winScene')
             }
             takeTurn(mainScene)
         } else {
@@ -158,10 +159,12 @@ mainScene.create = function(data) {
     takeTurn(this)
 }
 
+const winScene = new Phaser.Scene('winScene')
+
 const config = {
     width: screenWidth,
     height: screenHeight,
-    scene: [mainScene]
+    scene: [UIScene, mainScene, winScene]
 }
 
 
