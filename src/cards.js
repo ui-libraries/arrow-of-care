@@ -329,7 +329,7 @@ export const Cards = {
             },
         {
             "text": "Rocket owner's manual discovered.",
-            "targets": ["rocket"],
+            "targets": [],
             "numTargets": 1,
             "value": 1,
             "type": "bonus"
@@ -350,7 +350,7 @@ export const Cards = {
         },
         {
             "text": "Save this card and use it to get out of the crevasse.",
-            "targets": ["crevasse-bonus"],
+            "targets": [],
             "numTargets": 1,
             "value": 1,
             "type": "bonus"
@@ -466,12 +466,18 @@ export const Cards = {
     start: [
         {
             "text": "Start",
+            "targets": [],
+            "numTargets": 0,
+            "value": 1,
             "type": "start"
         }
     ],
     crevasse: [
         {
             "text": "Crevasse",
+            "targets": [],
+            "numTargets": 0,
+            "value": 1,
             "type": "crevasse"
         }
     ]

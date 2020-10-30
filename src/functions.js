@@ -26,6 +26,7 @@ export function getCard(index) {
  */
 export function renderCard(scene) {
     const currentCard = getCard(scene.gameStats.data.values.gameState)
+    console.log(scene.gameStats.data.values.gameState, currentCard)
     scene.gameStats.data.set("card", currentCard)
     let targets = currentCard.targets.toString()
     if (currentCard.targets.length == 0) { targets = "They" }
@@ -42,7 +43,8 @@ export function renderCard(scene) {
         wordWrap: {
             width: 650
         }
-    })    
+    })
+    cardText.name = "card text"
     return cardText
 }
 
@@ -283,14 +285,20 @@ function resetCharacterSelection(scene) {
  */
 export function takeTurn(scene) {
     resetCharacterSelection(scene)
+    const sceneChildren = scene.children.list
+    sceneChildren.forEach(child => {
+        if (child.name == "card text") {
+            child.destroy()
+        }
+    })
     const roll = diceRoll()
     //const roll = 1
     const gameState = scene.gameStats.data.values.gameState
     let newIndex = roll + gameState
     let rocket = scene.gameStats.data.values.rocket
-    if (newIndex > GameStates.length) {
+    if (newIndex > GameStates.length - 1) {
         rocket++
-        newIndex = newIndex - (GameStates.length + 1)
+        newIndex = newIndex - (GameStates.length)
     }
     const val = {"rocket": rocket,"gameState":newIndex}
     scene.gameStats.data.set(val)

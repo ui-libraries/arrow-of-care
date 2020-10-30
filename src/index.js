@@ -143,6 +143,7 @@ mainScene.create = function(data) {
         takeTurn(mainScene)
     })
     takeTurn(this)
+    console.log(this)
 }
 
 const config = {
