@@ -270,6 +270,8 @@ function resetCharacterSelection(scene) {
         character.data.set("is_selected", false)
         let sprite = getCharacterBackground(character)
         sprite.setInteractive()
+        sprite.setAlpha(1)
+        
     })
 }
 
@@ -281,8 +283,8 @@ function resetCharacterSelection(scene) {
  */
 export function takeTurn(scene) {
     resetCharacterSelection(scene)
-    //const roll = diceRoll()
-    const roll = 1
+    const roll = diceRoll()
+    //const roll = 1
     const gameState = scene.gameStats.data.values.gameState
     let newIndex = roll + gameState
     let rocket = scene.gameStats.data.values.rocket
