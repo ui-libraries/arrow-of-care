@@ -135,11 +135,18 @@ export function toggleCharacterSelection(character, scene) {
 export function updateCharacterHealth(scene) {
     const characterList = scene.characterList.children.entries
     const currentCard = scene.gameStats.data.values.card
+    console.log(currentCard)
     const cardValue = currentCard.value
+    let selectedCharacters = characterList.filter(character => character.data.values.is_selected)
+    let newHealth
     characterList.forEach(character => {
         if (character.data.values.is_selected == true) {
             const characterHealth = character.data.values.health
-            const newHealth = characterHealth + cardValue
+            if (currentCard.type == "care") {
+                newHealth = characterHealth + (cardValue / selectedCharacters.length)
+            } else {
+                newHealth = characterHealth + cardValue
+            }
             character.data.set("health", newHealth)
             const children = character.list
             children.forEach(child => {
