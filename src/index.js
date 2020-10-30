@@ -12,7 +12,10 @@ import {
     getCard,
     addCharacter,
     renderCard,
-    takeTurn
+    takeTurn,
+    validateTargets,
+    activateCard,
+    updateCharacterHealth
 } from "./functions.js"
 
 const screenWidth = 1920
@@ -140,10 +143,19 @@ mainScene.create = function(data) {
     this.characterList.addMultiple([blaise, robert, rosario, baby, keara, maya, tammy, yusef])
     const confirmButton = this.add.sprite(screenWidth/2, screenHeight/2, "confirm-button").setScale(0.2).setInteractive()
     confirmButton.on('pointerdown', () => {
-        takeTurn(mainScene)
+        if (validateTargets(mainScene)) {
+            updateCharacterHealth(mainScene)
+            rocketText.setText("rocket pieces: " + this.gameStats.data.values.rocket)
+            if (this.gameStats.data.values.rocket == 7) {
+                console.log("YOU WIN!!!!")
+            }
+            takeTurn(mainScene)
+        } else {
+            console.log("nope, doesn't work. invalide targets")
+        }
+        
     })
     takeTurn(this)
-    console.log(this)
 }
 
 const config = {

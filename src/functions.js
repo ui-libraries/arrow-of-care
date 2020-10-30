@@ -26,7 +26,6 @@ export function getCard(index) {
  */
 export function renderCard(scene) {
     const currentCard = getCard(scene.gameStats.data.values.gameState)
-    console.log(scene.gameStats.data.values.gameState, currentCard)
     scene.gameStats.data.set("card", currentCard)
     let targets = currentCard.targets.toString()
     if (currentCard.targets.length == 0) { targets = "They" }
@@ -92,7 +91,6 @@ export function addCharacter(scene, x, y, key, content) {
     character.setData(content)
     background.on('pointerdown', () => {
         toggleCharacterSelection(character, scene)
-        console.log("targets validated? " + validateTargets(scene))
     }, this)
     character.add([background, characterName, characterHealth, characterSkills])
     return character
@@ -123,7 +121,6 @@ export function toggleCharacterSelection(character, scene) {
                 selected.push(member)
             }
         })
-        console.log(selected)
         return selected
     }
 }
@@ -135,15 +132,23 @@ export function toggleCharacterSelection(character, scene) {
  * @param {number} newHealth - the new value to set for character's health
  * @return {object} A container object of the character
  */
-function updateCharacterHealth(character, newHealth) {
-    const children = character.list
-    character.data.set("health", newHealth)
-    children.forEach(child => {
-        if (child.name == "characterHealthText") {
-            child.setText("Health: " + newHealth)
+export function updateCharacterHealth(scene) {
+    const characterList = scene.characterList.children.entries
+    const currentCard = scene.gameStats.data.values.card
+    const cardValue = currentCard.value
+    characterList.forEach(character => {
+        if (character.data.values.is_selected == true) {
+            const characterHealth = character.data.values.health
+            const newHealth = characterHealth + cardValue
+            character.data.set("health", newHealth)
+            const children = character.list
+            children.forEach(child => {
+                if (child.name == "characterHealthText") {
+                    child.setText("Health: " + newHealth)
+                }
+            })
         }
     })
-    return character
 }
 
 /**
@@ -176,10 +181,8 @@ function checkSkills(character, skill) {
     const characterSkill = character.data.values.skills
     
     if (characterSkill.includes(skill)) {
-        //console.log(character.name,"true",skill, characterSkill)
         return true
     } else {
-        //console.log(character.name,"false",skill, characterSkill)
         return false
     }
 }
@@ -224,7 +227,8 @@ function diceRoll() {
  * @param {object} scene - A Phaser scene with characterList
  * @return {none} Updates selection or health
  */
-function activateCard(scene) {
+export function activateCard(scene) {
+    console.log("activate card!")
     const currentCard = scene.gameStats.data.values.card
     const targets = currentCard.targets
     if (currentCard.type == "care" && targets.length !== 0) {
@@ -237,8 +241,6 @@ function activateCard(scene) {
     } else if (currentCard.type !== "care" && targets.length !== 0) {
         targets.forEach(characterName => {
             let character = getCharacterByName(scene, characterName)
-            let characterHealth = character.data.values.health + currentCard.value
-            updateCharacterHealth(character, characterHealth)
         })
     }    
 }
@@ -284,6 +286,7 @@ function resetCharacterSelection(scene) {
  * @return {object} The updated gameStats
  */
 export function takeTurn(scene) {
+    console.log("taking turn")
     resetCharacterSelection(scene)
     const sceneChildren = scene.children.list
     sceneChildren.forEach(child => {
