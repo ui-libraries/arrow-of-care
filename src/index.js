@@ -15,7 +15,8 @@ import {
     takeTurn,
     validateTargets,
     activateCard,
-    updateCharacterHealth
+    updateCharacterHealth,
+    scoring
 } from "./functions.js"
 
 const screenWidth = 1920
@@ -64,7 +65,7 @@ mainScene.create = function(data) {
             width: 650
         }
     })   
-
+    /*
     const progressText = this.add.text(58, 575, "stage completion: " + ((this.gameStats.data.values.gameState / 16 * 100) + "%"), {
         fontSize: 40,
         color: "red",
@@ -73,6 +74,18 @@ mainScene.create = function(data) {
             width: 650
         }
     })
+    */
+   const progressText = this.add.text(58, 575, "", {
+        fontSize: 40,
+        color: "red",
+        backgroundColor: "white",
+        wordWrap: {
+            width: 650
+        }
+    })
+   
+
+    progressText.name = "progress text"
     
     const blaise = addCharacter(this, 0, 717, "character", {
         "name": "blaise",
@@ -142,13 +155,18 @@ mainScene.create = function(data) {
     this.characterList = this.add.group()
     this.characterList.addMultiple([blaise, robert, rosario, baby, keara, maya, tammy, yusef])
     const confirmButton = this.add.sprite(screenWidth/2, screenHeight/2, "confirm-button").setScale(0.2).setInteractive()
+    confirmButton.name = "confirm button"
     confirmButton.on('pointerdown', () => {
         if (validateTargets(mainScene)) {
             updateCharacterHealth(mainScene)
             rocketText.setText("rocket pieces: " + this.gameStats.data.values.rocket)
-            if (this.gameStats.data.values.rocket == 7) {
+            if (this.gameStats.data.values.rocket == 10) {
                 console.log("YOU WIN!!!!")
-                this.scene.start('winScene')
+                confirmButton.destroy()
+                progressText.setText("score: " + scoring(mainScene))
+                //this.scene.start('endGameScene')
+                let score = scoring(mainScene)
+                console.log(score)
             }
             takeTurn(mainScene)
         } else {
@@ -157,14 +175,13 @@ mainScene.create = function(data) {
         
     })
     takeTurn(this)
+    console.log(this)
 }
-
-const winScene = new Phaser.Scene('winScene')
 
 const config = {
     width: screenWidth,
     height: screenHeight,
-    scene: [UIScene, mainScene, winScene]
+    scene: [UIScene, mainScene]
 }
 
 

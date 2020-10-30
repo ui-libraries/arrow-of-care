@@ -153,6 +153,19 @@ export function updateCharacterHealth(scene) {
                     child.setText("Health: " + newHealth)
                 }
             })
+            if (character.data.values.health <= 0) {
+                const sceneChildren = scene.children.list
+                sceneChildren.forEach(child => {
+                    if (child.name == "progress text") {
+                        const progressText = child
+                        console.log(character.name + " died! You lose!!")
+                        progressText.setText(character.name + " died! You lose!!\n" + "score: " + scoring(scene))
+                    }
+                    if (child.name == "confirm button") {
+                        child.destroy()
+                    }
+                })
+            }
         }
     })
 }
@@ -313,5 +326,15 @@ export function takeTurn(scene) {
     scene.gameStats.data.set(val)
     renderCard(scene)
     activateCard(scene)
+
     return val
+}
+
+export function scoring(scene) {
+    const characterList = scene.characterList.children.entries
+    let score = 0
+    characterList.forEach(character => {
+        score = score + character.data.values.health     
+    })
+    return score
 }
