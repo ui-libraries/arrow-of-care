@@ -134,7 +134,6 @@ export function toggleCharacterSelection(character, scene) {
 export function updateCharacterHealth(scene) {
     const characterList = scene.characterList.children.entries
     const currentCard = scene.gameStats.data.values.card
-    console.log(currentCard)
     const cardValue = currentCard.value
     let selectedCharacters = characterList.filter(character => character.data.values.is_selected)
     let newHealth
@@ -153,19 +152,22 @@ export function updateCharacterHealth(scene) {
                     child.setText("Health: " + newHealth)
                 }
             })
-            if (character.data.values.health <= 0) {
-                const sceneChildren = scene.children.list
-                sceneChildren.forEach(child => {
-                    if (child.name == "progress text") {
-                        const progressText = child
-                        console.log(character.name + " died! You lose!!")
-                        progressText.setText(character.name + " died! You lose!!\n" + "score: " + scoring(scene))
-                    }
-                    if (child.name == "confirm button") {
-                        child.destroy()
-                    }
-                })
-            }
+        }
+    })
+    checkEndGame(scene)
+}
+
+export function checkEndGame(scene) {
+    const characterList = scene.characterList.children.entries
+    let win = false, loss = false
+
+    characterList.forEach(character => {
+        if (character.data.values.health <= 0) {
+            scene.scene.start('endGameScene', {"scene": scene})
+        }
+
+        if (scene.gameStats.data.values.rocket == 12) {
+            scene.scene.start('endGameScene', {"scene": scene})
         }
     })
 }
@@ -247,7 +249,6 @@ function diceRoll() {
  * @return {none} Updates selection or health
  */
 export function activateCard(scene) {
-    console.log("activate card!")
     const currentCard = scene.gameStats.data.values.card
     const targets = currentCard.targets
     if (currentCard.type == "care" && targets.length !== 0) {
@@ -305,7 +306,6 @@ function resetCharacterSelection(scene) {
  * @return {object} The updated gameStats
  */
 export function takeTurn(scene) {
-    console.log("taking turn")
     resetCharacterSelection(scene)
     const sceneChildren = scene.children.list
     sceneChildren.forEach(child => {

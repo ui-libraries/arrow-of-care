@@ -1,8 +1,8 @@
 export const Cards = {
     care: [{
-            "text": "Dr. Baby has a high fever.",
+            "text": "Dr. Dr. Baby has a high fever.",
             "skill": "H",
-            "targets": ["baby"],
+            "targets": ["Dr. Baby"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -10,7 +10,7 @@ export const Cards = {
         {
             "text": "Robert has lice and needs his person/possessions cleaned.",
             "skill": "H",
-            "targets": ["robert"],
+            "targets": ["Robert"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -18,7 +18,7 @@ export const Cards = {
         {
             "text": "Rosario is feeling despair about whether the rocket can be completed in tme.",
             "skill": "E",
-            "targets": ["rosario"],
+            "targets": ["Rosario"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -26,7 +26,7 @@ export const Cards = {
         {
             "text": "Blaise mourns a breakup.",
             "skill": "E",
-            "targets": ["blaise"],
+            "targets": ["Blaise"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -34,7 +34,7 @@ export const Cards = {
         {
             "text": "Tammy is having an anxiety attack.",
             "skill": "E",
-            "targets": ["tammy"],
+            "targets": ["Tammy"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -42,7 +42,7 @@ export const Cards = {
         {
             "text": "Tammy has an infection in her leg.",
             "skill": "H",
-            "targets": ["tammy"],
+            "targets": ["Tammy"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -50,7 +50,7 @@ export const Cards = {
         {
             "text": "Robert is having arthritic pain in his hands.",
             "skill": "L",
-            "targets": ["robert"],
+            "targets": ["Robert"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -58,7 +58,7 @@ export const Cards = {
         {
             "text": "Blaise has sprained their ankle.",
             "skill": "L",
-            "targets": ["blaise"],
+            "targets": ["Blaise"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -66,7 +66,7 @@ export const Cards = {
         {
             "text": "Robert has cardiac arrest and needs CPR.",
             "skill": "H",
-            "targets": ["robert"],
+            "targets": ["Robert"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -74,7 +74,7 @@ export const Cards = {
         {
             "text": "Keara chokes on food and needs the Heimlich maneuver administered.",
             "skill": "H",
-            "targets": ["keara"],
+            "targets": ["Keara"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -82,7 +82,7 @@ export const Cards = {
         {
             "text": "Keara's memory is failing and she is confused.",
             "skill": "E",
-            "targets": ["keara"],
+            "targets": ["Keara"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -90,7 +90,7 @@ export const Cards = {
         {
             "text": "Yusef has a bad dream.",
             "skill": "E",
-            "targets": ["yusef"],
+            "targets": ["Yusef"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -98,7 +98,7 @@ export const Cards = {
         {
             "text": "Yusef wanders off and gets lost.",
             "skill": "L",
-            "targets": ["yusef"],
+            "targets": ["Yusef"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -106,15 +106,15 @@ export const Cards = {
         {
             "text": "Blaise has an ear infection.",
             "skill": "L",
-            "targets": ["blaise"],
+            "targets": ["Blaise"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
         },
         {
-            "text": "Dr. Baby is constipated.",
+            "text": "Dr. Dr. Baby is constipated.",
             "skill": "L",
-            "targets": ["baby"],
+            "targets": ["Dr. Baby"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -146,7 +146,7 @@ export const Cards = {
         {
             "text": "Rosario has sliced her arm.",
             "skill": "L",
-            "targets": ["rosario"],
+            "targets": ["Rosario"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -154,7 +154,7 @@ export const Cards = {
         {
             "text": "Tammy has a cold.",
             "skill": "L",
-            "targets": ["tammy"],
+            "targets": ["Tammy"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -162,7 +162,7 @@ export const Cards = {
         {
             "text": "Robert has food poisoning.",
             "skill": "L",
-            "targets": ["robert"],
+            "targets": ["Robert"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -170,7 +170,7 @@ export const Cards = {
         {
             "text": "Rosario has a migraine.",
             "skill": "L",
-            "targets": ["rosario"],
+            "targets": ["Rosario"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -178,7 +178,7 @@ export const Cards = {
         {
             "text": "Maya has sprained her wrist.",
             "skill": "L",
-            "targets": ["maya"],
+            "targets": ["Maya"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -186,15 +186,15 @@ export const Cards = {
         {
             "text": "Maya's fibromyalgia acts up.",
             "skill": "L",
-            "targets": ["maya"],
+            "targets": ["Maya"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
         },
         {
-            "text": "Dr. Baby has diaper rash.",
+            "text": "Dr. Dr. Baby has diaper rash.",
             "skill": "L",
-            "targets": ["baby"],
+            "targets": ["Dr. Baby"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -202,15 +202,15 @@ export const Cards = {
         {
             "text": "Keara needs medicine administered.",
             "skill": "L",
-            "targets": ["keara"],
+            "targets": ["Keara"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
         },
         {
-            "text": "Dr. Baby is not getting to sleep easily and needs to be held to go to sleep.",
+            "text": "Dr. Dr. Baby is not getting to sleep easily and needs to be held to go to sleep.",
             "skill": "L",
-            "targets": ["baby"],
+            "targets": ["Dr. Baby"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -218,7 +218,7 @@ export const Cards = {
         {
             "text": "Blaise has an allergic reaction.",
             "skill": "L",
-            "targets": ["blaise"],
+            "targets": ["Blaise"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -226,7 +226,7 @@ export const Cards = {
         {
             "text": "Rosario has an asthma attack.",
             "skill": "L",
-            "targets": ["rosario"],
+            "targets": ["Rosario"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -242,7 +242,7 @@ export const Cards = {
         {
             "text": "Robert misses his children and is depressed.",
             "skill": "E",
-            "targets": ["robert"],
+            "targets": ["Robert"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -250,7 +250,7 @@ export const Cards = {
         {
             "text": "Yusef is bored.",
             "skill": "E",
-            "targets": ["yusef"],
+            "targets": ["Yusef"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -258,7 +258,7 @@ export const Cards = {
         {
             "text": "Tammy has a nightmare.",
             "skill": "E",
-            "targets": ["tammy"],
+            "targets": ["Tammy"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -266,7 +266,7 @@ export const Cards = {
         {
             "text": "Maya is emotionally exhausted",
             "skill": "E",
-            "targets": ["maya"],
+            "targets": ["Maya"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -274,7 +274,7 @@ export const Cards = {
         {
             "text": "Yusef is having a meltdown.",
             "skill": "E",
-            "targets": ["yusef"],
+            "targets": ["Yusef"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -282,7 +282,7 @@ export const Cards = {
         {
             "text": "Maya is feeling depressed that her husband is now a five-year old.",
             "skill": "E",
-            "targets": ["maya"],
+            "targets": ["Maya"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -298,7 +298,7 @@ export const Cards = {
         {
             "text": "Keara has fallen and fractured a hip.",
             "skill": "H",
-            "targets": ["keara"],
+            "targets": ["Keara"],
             "numTargets": 2,
             "value": -2,
             "type": "care"
@@ -315,14 +315,14 @@ export const Cards = {
     ],
     bonus: [{
             "text": "Extra food found.",
-            "targets": ["blaise", "robert", "rosario", "baby", "keara", "maya", "tammy", "yusef"],
+            "targets": ["Blaise", "Robert", "Rosario", "Dr. Baby", "Keara", "Maya", "Tammy", "Yusef"],
             "numTargets": 8,
             "value": 1,
             "type": "bonus"
         },
         {
             "text": "Medicine found",
-            "targets": ["baby", "yusef", "keara"],
+            "targets": ["Dr. Baby", "Yusef", "Keara"],
             "numTargets": 3,
             "value": 1,
             "type": "bonus"
@@ -336,14 +336,14 @@ export const Cards = {
         },
         {
             "text": "Fresh spring discovered.",
-            "targets": ["blaise", "robert", "rosario", "baby", "keara", "maya", "tammy", "yusef"],
+            "targets": ["Blaise", "Robert", "Rosario", "Dr. Baby", "Keara", "Maya", "Tammy", "Yusef"],
             "numTargets": 8,
             "value": 1,
             "type": "bonus"
         },
         {
             "text": "Passing satellite delivers cell service for an hour.",
-            "targets": ["blaise", "robert", "rosario", "baby", "keara", "maya", "tammy", "yusef"],
+            "targets": ["Blaise", "Robert", "Rosario", "Dr. Baby", "Keara", "Maya", "Tammy", "Yusef"],
             "numTargets": 8,
             "value": 1,
             "type": "bonus"
@@ -357,28 +357,28 @@ export const Cards = {
         },
         {
             "text": "First aid kit found.",
-            "targets": ["blaise", "robert", "rosario", "baby", "keara", "maya", "tammy", "yusef"],
+            "targets": ["Blaise", "Robert", "Rosario", "Dr. Baby", "Keara", "Maya", "Tammy", "Yusef"],
             "numTargets": 8,
             "value": 1,
             "type": "bonus"
         },
         {
             "text": "Housing materials found.",
-            "targets": ["blaise", "robert", "rosario", "baby", "keara", "maya", "tammy", "yusef"],
+            "targets": ["Blaise", "Robert", "Rosario", "Dr. Baby", "Keara", "Maya", "Tammy", "Yusef"],
             "numTargets": 8,
             "value": 1,
             "type": "bonus"
         },
         {
             "text": "Everyone gets quality sleep.",
-            "targets": ["blaise", "robert", "rosario", "baby", "keara", "maya", "tammy", "yusef"],
+            "targets": ["Blaise", "Robert", "Rosario", "Dr. Baby", "Keara", "Maya", "Tammy", "Yusef"],
             "numTargets": 8,
             "value": 1,
             "type": "bonus"
         },
         {
             "text": "Extra tools found to work on ship.",
-            "targets": ["blaise", "robert", "rosario", "baby", "keara", "maya", "tammy", "yusef"],
+            "targets": ["Blaise", "Robert", "Rosario", "Dr. Baby", "Keara", "Maya", "Tammy", "Yusef"],
             "numTargets": 8,
             "value": 1,
             "type": "bonus"
@@ -387,56 +387,56 @@ export const Cards = {
     ],
     catastrophe: [{
             "text": "Chemical leaks into water source.",
-            "targets": ["blaise", "robert", "rosario", "baby", "keara", "maya", "tammy", "yusef"],
+            "targets": ["Blaise", "Robert", "Rosario", "Dr. Baby", "Keara", "Maya", "Tammy", "Yusef"],
             "numTargets": 8,
             "value": -2,
             "type": "catastrophe"
         },
         {
             "text": "Space creatures surround the camp and need to be scared off.",
-            "targets": ["blaise", "robert", "rosario"],
+            "targets": ["Blaise", "Robert", "Rosario"],
             "numTargets": 3,
             "value": -1,
             "type": "catastrophe"
         },
         {
             "text": "Space bugs eat produce.",
-            "targets": ["blaise", "robert", "rosario", "baby", "keara", "maya", "tammy", "yusef"],
+            "targets": ["Blaise", "Robert", "Rosario", "Dr. Baby", "Keara", "Maya", "Tammy", "Yusef"],
             "numTargets": 8,
             "value": -1,
             "type": "catastrophe"
         },
         {
             "text": "Housing is destroyed by space debris.",
-            "targets": ["blaise", "robert", "rosario", "baby", "keara", "maya", "tammy", "yusef"],
+            "targets": ["Blaise", "Robert", "Rosario", "Dr. Baby", "Keara", "Maya", "Tammy", "Yusef"],
             "numTargets": 8,
             "value": -2,
             "type": "catastrophe" 
         },
         {
             "text": "Space illness.",
-            "targets": ["blaise", "robert", "rosario", "baby", "keara", "maya", "tammy", "yusef"],
+            "targets": ["Blaise", "Robert", "Rosario", "Dr. Baby", "Keara", "Maya", "Tammy", "Yusef"],
             "numTargets": 8,
             "value": -2,
             "type": "catastrophe" 
         },
         {
             "text": "Generator fails and everyone catches a cold.",
-            "targets": ["blaise", "robert", "rosario", "baby", "keara", "maya", "tammy", "yusef"],
+            "targets": ["Blaise", "Robert", "Rosario", "Dr. Baby", "Keara", "Maya", "Tammy", "Yusef"],
             "numTargets": 8,
             "value": -2,
             "type": "catastrophe" 
         },
         {
             "text": "Those working on rocket are burned.",
-            "targets": ["blaise", "robert", "rosario"],
+            "targets": ["Blaise", "Robert", "Rosario"],
             "numTargets": 3,
             "value": -3,
             "type": "catastrophe" 
         },
         {
             "text": "Dust storm delays build.",
-            "targets": ["blaise", "robert", "rosario", "baby", "keara", "maya", "tammy", "yusef"],
+            "targets": ["Blaise", "Robert", "Rosario", "Dr. Baby", "Keara", "Maya", "Tammy", "Yusef"],
             "numTargets": 8,
             "value": -1,
             "type": "catastrophe" 
@@ -450,14 +450,14 @@ export const Cards = {
         },
         {
             "text": "Robert burns dinner.",
-            "targets": ["blaise", "robert", "rosario", "baby", "keara", "maya", "tammy", "yusef"],
+            "targets": ["Blaise", "Robert", "Rosario", "Dr. Baby", "Keara", "Maya", "Tammy", "Yusef"],
             "numTargets": 8,
             "value": -1,
             "type": "catastrophe" 
         },
         {
             "text": "Space debris destorys part ot the ship.",
-            "targets": ["blaise", "robert", "rosario", "baby", "keara", "maya", "tammy", "yusef"],
+            "targets": ["Blaise", "Robert", "Rosario", "Dr. Baby", "Keara", "Maya", "Tammy", "Yusef"],
             "numTargets": 8,
             "value": -2,
             "type": "catastrophe" 

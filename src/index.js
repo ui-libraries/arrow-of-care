@@ -16,7 +16,8 @@ import {
     validateTargets,
     activateCard,
     updateCharacterHealth,
-    scoring
+    scoring,
+    checkEndGame
 } from "./functions.js"
 
 const screenWidth = 1920
@@ -35,6 +36,14 @@ UIScene.create = function() {
     startButton.on('pointerdown', () => {
         this.scene.start('mainScene')
     }, this)
+}
+
+export const endGameScene = new Phaser.Scene('endGameScene')
+endGameScene.init = function(data) {
+    this.mainScene = data.scene
+}
+endGameScene.create = function() {
+    console.log(this.mainScene)
 }
 
 export const mainScene = new Phaser.Scene('mainScene')
@@ -88,7 +97,7 @@ mainScene.create = function(data) {
     progressText.name = "progress text"
     
     const blaise = addCharacter(this, 0, 717, "character", {
-        "name": "blaise",
+        "name": "Blaise",
         "health": 10,
         "skills": "ELH",
         "age": 38,
@@ -96,7 +105,7 @@ mainScene.create = function(data) {
         "is_selected": false
     })
     const robert = addCharacter(this, 240, 717, "character", {
-        "name": "robert",
+        "name": "Robert",
         "health": 10,
         "skills": "ELH",
         "age": 26,
@@ -104,7 +113,7 @@ mainScene.create = function(data) {
         "is_selected": false
     })
     const rosario = addCharacter(this, 480, 717, "character", {
-        "name": "rosario",
+        "name": "Rosario",
         "health": 10,
         "skills": "ELH",
         "age": 44,
@@ -112,7 +121,7 @@ mainScene.create = function(data) {
         "is_selected": false
     })
     const baby = addCharacter(this, 720, 717, "character", {
-        "name": "baby",
+        "name": "Dr. Baby",
         "health": 7,
         "skills": "",
         "age": 1,
@@ -120,7 +129,7 @@ mainScene.create = function(data) {
         "is_selected": false
     })
     const keara = addCharacter(this, 960, 717, "character", {
-        "name": "keara",
+        "name": "Keara",
         "health": 8,
         "skills": "E",
         "age": 88,
@@ -128,7 +137,7 @@ mainScene.create = function(data) {
         "is_selected": false
     })
     const maya = addCharacter(this, 1200, 717, "character", {
-        "name": "maya",
+        "name": "Maya",
         "health": 9,
         "skills": "EL",
         "age": 47,
@@ -136,7 +145,7 @@ mainScene.create = function(data) {
         "is_selected": false
     })
     const tammy = addCharacter(this, 1440, 717, "character", {
-        "name": "tammy",
+        "name": "Tammy",
         "health": 9,
         "skills": "EL",
         "age": 35,
@@ -144,7 +153,7 @@ mainScene.create = function(data) {
         "is_selected": false
     })
     const yusef = addCharacter(this, 1680, 717, "character", {
-        "name": "yusef",
+        "name": "Yusef",
         "health": 9,
         "skills": "EL",
         "age": 5,
@@ -160,14 +169,7 @@ mainScene.create = function(data) {
         if (validateTargets(mainScene)) {
             updateCharacterHealth(mainScene)
             rocketText.setText("rocket pieces: " + this.gameStats.data.values.rocket)
-            if (this.gameStats.data.values.rocket == 10) {
-                console.log("YOU WIN!!!!")
-                confirmButton.destroy()
-                progressText.setText("score: " + scoring(mainScene))
-                //this.scene.start('endGameScene')
-                let score = scoring(mainScene)
-                console.log(score)
-            }
+            checkEndGame(mainScene)
             takeTurn(mainScene)
         } else {
             console.log("nope, doesn't work. invalide targets")
@@ -175,13 +177,12 @@ mainScene.create = function(data) {
         
     })
     takeTurn(this)
-    console.log(this)
 }
 
 const config = {
     width: screenWidth,
     height: screenHeight,
-    scene: [UIScene, mainScene]
+    scene: [UIScene, mainScene, endGameScene]
 }
 
 
