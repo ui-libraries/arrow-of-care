@@ -40,10 +40,54 @@ UIScene.create = function() {
 
 export const endGameScene = new Phaser.Scene('endGameScene')
 endGameScene.init = function(data) {
-    this.mainScene = data.scene
+    this.rockets = data.rockets
+    this.score = data.score
 }
 endGameScene.create = function() {
     console.log(this.mainScene)
+}
+endGameScene.create = function() {
+    let score = this.score
+    let tier
+
+    if (score >= 65) {
+        tier = "master Caretaker"
+    }
+
+    if (score >= 35 && score <= 64) {
+        tier = "moderate Caretaker"
+    }
+
+    if (score <= 34) {
+        tier = "inept Caretaker"
+    }
+
+    const rocketText = this.add.text(58, 75, "rocket pieces: " + this.rockets, {
+        fontSize: 40,
+        color: "red",
+        backgroundColor: "white",
+        wordWrap: {
+            width: 650
+        }
+    })
+
+    const scoreText = this.add.text(58, 175, "score: " + score, {
+        fontSize: 40,
+        color: "red",
+        backgroundColor: "white",
+        wordWrap: {
+            width: 650
+        }
+    })
+
+    const tierText = this.add.text(58, 275, "You are a " + tier, {
+        fontSize: 40,
+        color: "red",
+        backgroundColor: "white",
+        wordWrap: {
+            width: 650
+        }
+    })
 }
 
 export const mainScene = new Phaser.Scene('mainScene')

@@ -159,15 +159,16 @@ export function updateCharacterHealth(scene) {
 
 export function checkEndGame(scene) {
     const characterList = scene.characterList.children.entries
-    let win = false, loss = false
-
+    const rockets = scene.gameStats.data.values.rocket
+    const score = scoring(scene)
+    
     characterList.forEach(character => {
         if (character.data.values.health <= 0) {
-            scene.scene.start('endGameScene', {"scene": scene})
+            scene.scene.start('endGameScene', {"rockets": rockets, "score": score })
         }
 
-        if (scene.gameStats.data.values.rocket == 12) {
-            scene.scene.start('endGameScene', {"scene": scene})
+        if (scene.gameStats.data.values.rocket == 7) {
+            scene.scene.start('endGameScene', {"rockets": rockets, "score": score})
         }
     })
 }
