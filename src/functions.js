@@ -1,5 +1,5 @@
 import { Cards } from './cards'
-import { GameStates } from './states'
+import { GameStates, rocketsNeededToWin } from './states'
 
 /**
  * Get a random card object based on index of GameStates.
@@ -164,11 +164,11 @@ export function checkEndGame(scene) {
     
     characterList.forEach(character => {
         if (character.data.values.health <= 0) {
-            scene.scene.start('endGameScene', {"rockets": rockets, "score": score })
+            scene.scene.start('endGameScene', {"rockets": rockets, "score": score, "character": character })
         }
 
-        if (scene.gameStats.data.values.rocket == 7) {
-            scene.scene.start('endGameScene', {"rockets": rockets, "score": score})
+        if (scene.gameStats.data.values.rocket == rocketsNeededToWin) {
+            scene.scene.start('endGameScene', {"rockets": rockets, "score": score, "character": character})
         }
     })
 }
