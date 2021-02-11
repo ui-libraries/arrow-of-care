@@ -22,8 +22,8 @@ import {
     checkEndGame
 } from "./functions.js"
 
-const screenWidth = 1920
-const screenHeight = 1080
+const screenWidth  = window.innerWidth *2
+const screenHeight = window.innerHeight *2
 
 const UIScene = new Phaser.Scene('UIScene')
 UIScene.preload = function() {
@@ -125,6 +125,7 @@ mainScene.create = function(data) {
         "card": {}
     })
 
+
     const gameboard = this.add.image(960, 540, "gameboard")
 
     const rocketText = this.add.text(58, 75, "rocket pieces: " + this.gameStats.data.values.rocket + ' of ' + rocketsNeededToWin, {
@@ -224,7 +225,7 @@ mainScene.create = function(data) {
 
     this.characterList = this.add.group()
     this.characterList.addMultiple([blaise, robert, rosario, baby, keara, maya, tammy, yusef])
-    const confirmButton = this.add.sprite(screenWidth/2, screenHeight/2, "confirm-button").setScale(0.2).setInteractive()
+    const confirmButton = this.add.sprite(1000,500, "confirm-button").setScale(.2).setInteractive()
     confirmButton.name = "confirm button"
     confirmButton.on('pointerdown', () => {
         if (validateTargets(mainScene)) {
@@ -240,9 +241,15 @@ mainScene.create = function(data) {
     takeTurn(this)
 }
 
+//mainScene.scale.setGameSize(800,600)
+
 const config = {
     width: screenWidth,
     height: screenHeight,
+    scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH
+    },
     scene: [UIScene, mainScene, endGameScene]
 }
 
