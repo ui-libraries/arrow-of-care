@@ -12,8 +12,9 @@ export function getCard(index) {
     const list = Cards[state]
     if (list !== undefined) {
         const rand = Math.floor(Math.random() * Math.floor(list.length))
-        //const rand = 15
+        //const rand = 1
         const card = Cards[state][rand]
+        console.log(card)
         return card
     }
 }
@@ -262,8 +263,11 @@ export function activateCard(scene) {
     } else if (currentCard.type !== "care" && targets.length !== 0) {
         targets.forEach(characterName => {
             let character = getCharacterByName(scene, characterName)
+            toggleCharacterSelection(character, scene)            
+            let sprite = getCharacterBackground(character)
+            sprite.disableInteractive()
         })
-    }    
+    }
 }
 
 /**
