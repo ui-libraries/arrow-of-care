@@ -14,7 +14,6 @@ export function getCard(index) {
         const rand = Math.floor(Math.random() * Math.floor(list.length))
         //const rand = 1
         const card = Cards[state][rand]
-        console.log(card)
         return card
     }
 }
@@ -219,13 +218,14 @@ function checkSkills(character, skill) {
 export function validateTargets(scene) {
     const characterList = scene.characterList.children.entries
     const currentCard = scene.gameStats.data.values.card
-    const targets = currentCard.targets
+    let targets = currentCard.targets
     const skill = currentCard.skill
     let validCharacters = characterList.filter(character => checkSkills(character, skill))
     let selectedCharacters = characterList.filter(character => character.data.values.is_selected)
     targets.forEach(target => {
         validCharacters.push(getCharacterByName(scene, target))
     })
+    if (currentCard.type == "catastrophe") { validCharacters = selectedCharacters}
     let invalidCharacters = selectedCharacters.filter(el => validCharacters.indexOf(el) < 0)
     //checks if there are invalid characters or if the number selected is too high
     if (invalidCharacters.length > 0 || selectedCharacters.length > currentCard.numTargets) {
@@ -319,7 +319,7 @@ export function takeTurn(scene) {
         }
     })
     const roll = diceRoll()
-    //const roll = 1
+    //const roll = 0
     const gameState = scene.gameStats.data.values.gameState
     let newIndex = roll + gameState
     let rocket = scene.gameStats.data.values.rocket
@@ -327,6 +327,7 @@ export function takeTurn(scene) {
         rocket++
         newIndex = newIndex - (GameStates.length)
     }
+    //console.log((newIndex / GameStates.length) * 100)
     const val = {"rocket": rocket,"gameState":newIndex}
     scene.gameStats.data.set(val)
     renderCard(scene)

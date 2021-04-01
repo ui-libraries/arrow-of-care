@@ -3,7 +3,7 @@ import { rocketsNeededToWin } from './states'
 const logoImg = "../dist/assets/rocket.png"
 const startButtonImg = "../dist/assets/start-button.png"
 const rollButtonImg = "../dist/assets/roll-button.png"
-const leaderboardButtonImg = "../dist/assets/leaderboard-button.png"
+//const leaderboardButtonImg = "../dist/assets/leaderboard-button.png"
 const gameboardImg = "../dist/assets/background.jpg"
 const characterImg = "../dist/assets/character-card.png"
 const assignButtonImg = "../dist/assets/assign-button.png"
@@ -29,14 +29,14 @@ const UIScene = new Phaser.Scene('UIScene')
 UIScene.preload = function() {
     this.load.image("logo", logoImg)
     this.load.image("start-button", startButtonImg)
-    this.load.image("leaderboard-button", leaderboardButtonImg)
+    //this.load.image("leaderboard-button", leaderboardButtonImg)
     this.load.image('title', titleImg)
 }
 UIScene.create = function() {
     const title = this.add.image(screenWidth / 2, screenHeight / 2 - 200, "title").setScale(.2)
     const logo = this.add.image(screenWidth / 2, screenHeight / 2 - 50, "logo").setScale(.20)
     const startButton = this.add.sprite(logo.x - 30, logo.y + (logo.displayHeight / 2 + 40), "start-button").setScale(0.2).setInteractive()
-    const leaderboardButton = this.add.sprite(logo.x - 30, startButton.y + (startButton.displayHeight / 2 + 10), "leaderboard-button").setScale(0.2).setInteractive()
+    //const leaderboardButton = this.add.sprite(logo.x - 30, startButton.y + (startButton.displayHeight / 2 + 10), "leaderboard-button").setScale(0.2).setInteractive()
     startButton.on('pointerdown', () => {
         this.scene.start('mainScene')
     }, this)
@@ -47,6 +47,9 @@ endGameScene.init = function(data) {
     this.rockets = data.rockets
     this.score = data.score
     this.character =  data.character
+}
+endGameScene.preload = function() {
+    this.load.image("confirm-button", confirmButtonImg)
 }
 endGameScene.create = function() {
     console.log(this.mainScene)
@@ -104,7 +107,14 @@ endGameScene.create = function() {
                 width: 650
             }
         })
-    }    
+    }
+    
+    const confirmButton = this.add.sprite(1000,500, "confirm-button").setScale(.2).setInteractive()
+    confirmButton.name = "confirm button"
+    confirmButton.on('pointerdown', () => {
+        window.open('http://s-lib024.lib.uiowa.edu/arrow-of-care/end.html', '_blank')
+        
+    })
 }
 
 export const mainScene = new Phaser.Scene('mainScene')

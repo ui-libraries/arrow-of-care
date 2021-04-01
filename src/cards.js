@@ -1,6 +1,6 @@
 export const Cards = {
     care: [{
-            "text": "Dr. Dr. Baby has a high fever.",
+            "text": "Dr. Baby has a high fever.",
             "skill": "H",
             "targets": ["Dr. Baby"],
             "numTargets": 2,
@@ -112,7 +112,7 @@ export const Cards = {
             "type": "care"
         },
         {
-            "text": "Dr. Dr. Baby is constipated.",
+            "text": "Dr. Baby is constipated.",
             "skill": "L",
             "targets": ["Dr. Baby"],
             "numTargets": 2,
@@ -192,7 +192,7 @@ export const Cards = {
             "type": "care"
         },
         {
-            "text": "Dr. Dr. Baby has diaper rash.",
+            "text": "Dr. Baby has diaper rash.",
             "skill": "L",
             "targets": ["Dr. Baby"],
             "numTargets": 2,
@@ -208,7 +208,7 @@ export const Cards = {
             "type": "care"
         },
         {
-            "text": "Dr. Dr. Baby is not getting to sleep easily and needs to be held to go to sleep.",
+            "text": "Dr. Baby is not getting to sleep easily and needs to be held to go to sleep.",
             "skill": "L",
             "targets": ["Dr. Baby"],
             "numTargets": 2,
@@ -345,13 +345,6 @@ export const Cards = {
             "text": "Passing satellite delivers cell service for an hour.",
             "targets": ["Blaise", "Robert", "Rosario", "Dr. Baby", "Keara", "Maya", "Tammy", "Yusef"],
             "numTargets": 8,
-            "value": 1,
-            "type": "bonus"
-        },
-        {
-            "text": "Save this card and use it to get out of the crevasse.",
-            "targets": [],
-            "numTargets": 1,
             "value": 1,
             "type": "bonus"
         },
